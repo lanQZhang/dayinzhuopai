@@ -1,0 +1,36 @@
+name: Build Windows EXE
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pyinstaller
+
+      - name: Build EXE
+        run: |
+          pyinstaller --onefile --windowed --icon=app_icon.ico --name=桌牌生成器 --add-data "card_core.py;." --add-data "app_icon.ico;." windows_build/main.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: namecard-generator-windows
+          path: dist/桌牌生成器.exe
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/桌牌生成器.exe
