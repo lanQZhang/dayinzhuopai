@@ -25,7 +25,7 @@ jobs:
 
       - name: Build EXE
         run: |
-          pyinstaller --onefile --windowed --icon=app_icon.ico --name=桌牌生成器 --add-data "card_core.py;." --add-data "app_icon.ico;." --hidden-import=pandas --hidden-import=openpyxl --hidden-import=reportlab --hidden-import=reportlab.pdfgen --hidden-import=reportlab.pdfbase --hidden-import=reportlab.pdfbase.ttfonts --hidden-import=reportlab.lib.pagesizes --hidden-import=reportlab.lib.units --hidden-import=tkinterdnd2 windows_build/main.py
+          pyinstaller --onefile --windowed --icon=app_icon.ico --name=桌牌生成器 --add-data "card_core.py;." --add-data "app_icon.ico;." --collect-all reportlab --hidden-import=pandas --hidden-import=openpyxl --hidden-import=tkinterdnd2 windows_build/main.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
